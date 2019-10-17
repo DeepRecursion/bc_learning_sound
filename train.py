@@ -27,8 +27,8 @@ class Trainer:
             x_array, t_array = chainer.dataset.concat_examples(batch)
             x = chainer.Variable(cuda.to_gpu(x_array[:, None, None, :]))
             t = chainer.Variable(cuda.to_gpu(t_array))
-            self.optimizer.zerograds()
             y = self.model(x)
+            y.cleargrads()
             if self.opt.BC:
                 loss = utils.kl_divergence(y, t)
                 acc = F.accuracy(y, F.argmax(t, axis=1))
