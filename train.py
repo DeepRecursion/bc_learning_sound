@@ -10,6 +10,7 @@ import utils
 
 class Trainer:
     def __init__(self, model, optimizer, train_iter, val_iter, opt):
+        chainer.config.train = True
         self.model = model
         self.optimizer = optimizer
         self.train_iter = train_iter
@@ -26,7 +27,7 @@ class Trainer:
             x_array, t_array = chainer.dataset.concat_examples(batch)
             x = chainer.Variable(cuda.to_gpu(x_array[:, None, None, :]))
             t = chainer.Variable(cuda.to_gpu(t_array))
-            self.optimizer.cleargrads()
+            self.optimizer.zerograds()
             y = self.model(x)
             if self.opt.BC:
                 loss = utils.kl_divergence(y, t)
