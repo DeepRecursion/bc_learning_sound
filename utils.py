@@ -22,7 +22,7 @@ def random_crop(size):
 
 def normalize(factor):
     def f(sound):
-        return sound / factor
+        return (sound - -32768)/(factor - -32768)
 
     return f
 
